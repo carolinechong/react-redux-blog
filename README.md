@@ -1,68 +1,20 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# react-redux-blog
 
-## Available Scripts
+Render a list of blog posts using Redux-Thunk and Axios to make a request to JSON Placeholder API.
 
-In the project directory, you can run:
+## App Overview + Lessons Learned
+1. Used Redux Thunk and wired it up to Redux store through the use of applyMiddleware.
 
-### `npm start`
+2. Action Creators w/ Redux Thunk
+- Whenever we make an API request from an Action Creator, always make use of some middleware (ex. Redux-Thunk) to handle asynchronrous action creators.
+- Rules have changed. Action Creators no longer need to return an Action object -- can also optionally return a function.
+- If we return a function, it will be automatically be called with the dispatch and getState arguments (essentially giving us total control over both changing and getting data out of Redux store.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. Solved problem of overfetching data:
+- Solution V1: Used Lodash memoize function
+- Solution V2: Created an Action Creator (fetchPostsAndUsers) that calls other Action Creators (fetchPosts and fetchUsers), and dispatch those Action Creators. Used several Lodash and JS functions to find a unique user id (instead of fetching complete list of users in API): chain, map, uniq, forEach.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+4. Reducers w/ Redux Thunk
+- Whenever we run Reducers, it will run with previous state as the first argument (default state set to empty array).
+- Use switch/case syntax to handle every action (opposed to an if-statement)
+- Return a new array/object of state with [...state] - must not mutate its input state.
